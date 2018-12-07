@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>TLD Application</title>
+    <link rel="stylesheet" href="https://www.cefns.nau.edu/capstone/projects/CS/2019/Workerbee-S19/css/bootstrap.css">
+    <link rel="stylesheet" href="https://www.cefns.nau.edu/capstone/projects/CS/2019/Workerbee-S19/css/footer.css">
+</head>
+<body>
+<nav class="navbar" style="background-color: #3E7CB1; color:white">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <img src="https://www.cefns.nau.edu/capstone/projects/CS/2019/Workerbee-S19/img/logo.png" width="50px" style="float: left"> 
+      <a class="navbar-brand" href="{% url 'index' %}?next={{ request.path }}" style="color:white"> &nbsp;&nbsp;TLD Wokerbee</a>
+    </div>
+    <ul class="nav navbar-nav" style="float: right">
+        {% if user.is_authenticated %}
+            <li><a href="">Welcome! {{ user.username }}</a></li>
+            <li><a href="{% url 'password_change' %}?next={{ request.path }}">Setting</a></li>
+            <li><a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></li>
+
+        {% else %}
+           <li class="active" style="color:white"><a href="{% url 'users:register' %}?next={{ request.path }}">Sign up</a></li>
+        {% endif %}
+
+    </ul>
+  </div>
+</nav>
+
+<div class="flex-center">
+
+            {% if user.is_authenticated %}
+
+                <div class="container">
+
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                    <th width="5%">Seq ID</th>
+                    <th width="5%">Plane ID</th>
+                    <th width="10%">Real-Time data</th>
+                    <th width="10%">Snapshot data</th>
+                    <th width="30%">TLD data</th>
+                    <th width="15%">local MD5</th>
+                    <th width="15%">cloud MD5</th>
+                    <th width="5%">MD5 match</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for id in TLDdata %}
+                  {% if id.owner == user.username %}
+                  <tr>
+                    <td>{{id.id}}</td>
+                    <td>{{id.planeID}}</td>
+                    <td>{{id.RTdata}}</td>
+                    <td>{{id.SSdata}}</td>
+                    <td style="word-wrap:break-word;word-break:break-all;">{{id.TLDdata}}</td>
+                    <td style="word-wrap:break-word;word-break:break-all;">{{id.localMD5}}</td>
+                    <td style="word-wrap:break-word;word-break:break-all;">{{id.MD5}}</td>
+                    {% if id.MD5 == id.localMD5 %}
+                    <td>match</td>
+                    {% else %}
+                    <td>not match</td>
+                    {% endif %}
+                  </tr>
+                  {% endif %}
+                {% endfor %}
+
+              </tbody>
+            </table>
+
+
+            {% else %}
+                
+
+            </div> 
+
+        <section class="jumbotron text-center">
+        <div class="container">
+
+                <form class="form" action="{% url 'login' %}" method="post" align="center">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:300px">SIGN IN</button>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </form><br>
+                <div class="flex-left top-gap text-small" align="center">
+                <div class="unit-2-3"><span>Don't have an account？<a href="{% url 'users:register' %}">Sign up</a></span></div>
+                <div class="unit-1-3 flex-right"><span><a href="{% url 'password_reset' %}">Forgot password?</a></span></div>
+                </div>
+        </div>
+        </section>
+
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<footer class="footer" style="background-color: #3E7CB1">
+      <div class="container">
+<p style="margin: 20px 0; color: white" align="center"> <img src="https://www.cefns.nau.edu/capstone/projects/CS/2019/Workerbee-S19/img/nau_logo.png" height="20px"> &nbsp;&nbsp; 2018 - 2019 TLD Worker Bee CS Capstone Project</p></div>
+      </div>
+</footer>
+
+</body>
+</html>
