@@ -22,6 +22,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^$', views.index, name='index'),
     url(r'^$', views.index, name='index'),
+    url(r'^tableview/', views.tableview, name='tableview'),
+    url(r'^chartview/', views.chartview, name='chartview'),
+    url(r'^dataprocess/', views.dataprocess, name='dataprocess'),
     url(r'^users/', include('users.urls')),
     url(r'^users/', include('django.contrib.auth.urls')),
 ]

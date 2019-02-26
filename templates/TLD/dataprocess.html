@@ -1,0 +1,14 @@
+ {% if user.is_authenticated %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<p>Data uploaded! Redirect to the previous pages.</p>
+<script type="text/javascript">window.location.href=document.referrer</script>
+</body>
+</html>
+
+{% endif %}
