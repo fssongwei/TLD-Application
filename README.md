@@ -1,7 +1,10 @@
 # Capstone
 CS Capstone Project
 
-Updates (last update: 02/26/2019):
+Updates (last update: 03/04/2019):
+
+Version 2.1
+1. Updated chart view: now you can choose the data you want to make a chart for it.
 
 Version 2.0
 1. New GUI design.

@@ -65,16 +65,35 @@ def tableview(request):
 
 def chartview(request):
 
+	if request.method=='GET':
+		chart_view=request.GET.get('chart_view',default='0')
+
 	TLDdata=test_data.objects.filter(blocknum="11")[:50]
 	meta_data = Metadata.objects.filter(blockID="11")
 
 	label = " "
 	oilPressure = ""
 	oilTemperature = ""
+	chartview = ""
+
+	md_index = 0
+
+	for md in meta_data:
+		if md.parameterUserName == chart_view:
+			break
+		else:
+			md_index = md_index + 1
+
+
+	print(meta_data)
+	#md_index = meta_data.index(chart_view)
+
+	print(md_index)
 	for id in TLDdata:
 		variables = id.data.split(",")
 		oilPressure = oilPressure + variables[12] + ","
 		oilTemperature = oilTemperature + variables[11] + ","
+		chartview = chartview + variables[md_index] + ","
 		label = label + ","
 
 	if request.method=='GET':
